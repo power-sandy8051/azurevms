@@ -1,22 +1,12 @@
-[CmdletBinding()]
-param(
-    [Parameter(Mandatory=$true, Position=0)][object]$scriptParams
-)
+$disk = Get-Disk | Where partitionstyle -eq 'raw' | sort number
+$existing_disk_count = Get-Disk | Where partitionstyle -ne 'raw' | sort number | measure
+$existing_disk_count = $existing_disk_count.Count
 
-$raw_disks = Get-Disk | Where partitionstyle -eq 'raw' | sort number
+$letters = 70..89 | ForEach-Object { [char]$_ }
 $label = "Local Disk"
 
-if ([int]$scriptParams.diskSize -ge 2048){
-    $partitionStyle = "GPT"
-}
-else{
-    $partitionStyle = "MBR"
-}
-
-foreach ($disk in $raw_disks){
-    $driveLetter = $scriptParams.driveLetter.ToString()
-    $disk |
-    Initialize-Disk -PartitionStyle $partitionStyle -PassThru |
-    New-Partition -UseMaximumSize -DriveLetter $driveLetter |
-    Format-Volume - FileSystem NTFS -NewFileSystemLabel $label -Confirm:$false -Force
-}
+$driveLetter = $letters[$existing_disk_count].ToString()
+$disk | 
+Initialize-Disk -PartitionStyle MBR -PassThru |
+New-Partition -UseMaximumSize -DriveLetter $driveLetter |
+Format-Volume -FileSystem NTFS -NewFileSystemLabel $label -Confirm:$false -Force
