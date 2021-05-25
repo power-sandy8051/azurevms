@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$diskSize,
+    [int]$diskSize,
     [string]$driveLetter
 )
 
@@ -8,7 +8,7 @@ $disk = Get-Disk | Where partitionstyle -eq 'raw' | sort number
 
 $label = "Local Disk"
 
-if ([int]diskSize -ge 2048){
+if ($diskSize -ge 2048){
   $partitionStyle = "GPT"
 }
 else{
