@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-  [Parameter(Mandatory = $true, Position=1)][object]$scriptParams
+  [Parameter(Mandatory = $true)][object]$scriptParams
 )
 
 $disk = Get-Disk | Where partitionstyle -eq 'raw' | sort number
