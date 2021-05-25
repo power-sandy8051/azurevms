@@ -7,7 +7,7 @@ $disk = Get-Disk | Where partitionstyle -eq 'raw' | sort number
 
 $label = "Local Disk"
 
-if ([int]$scriptParams.diskSize - ge 2048){
+if ([int]$scriptParams.diskSize -ge 2048){
   $partitionStyle = "GPT"
 }
 else{
