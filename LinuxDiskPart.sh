@@ -2,7 +2,7 @@
 
 directory=$1
 
-drive_letter=(lsblk -r --output NAME,MOUNTPOINT | awk -F \/ '/sd/ { dsk=substr($1,1,3);dsks[dsk]+=1 } END { for ( i in dsks ) { if (dsks[i]==1) print i } }')
+drive_letter=$(lsblk -r --output NAME,MOUNTPOINT | awk -F \/ '/sd/ { dsk=substr($1,1,3);dsks[dsk]+=1 } END { for ( i in dsks ) { if (dsks[i]==1) print i } }')
 IFS=' ' read -r -a array <<< "$drive_letter"
 myDisk=${array[0]}
 # Partition the drive /dev/sdc.
