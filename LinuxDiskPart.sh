@@ -29,16 +29,16 @@ EOF
 # Write a file system to the partition.
 #  ext4 creates an ext4 filesystem.
 #  /dev/sdc1 is the device name.
-sudo mkfs -t ext4 /dev/$myDisk1
+sudo mkfs -t ext4 /dev/${myDisk}1
 
 # Create the /uploads directory, which we'll use as our mount point.
 sudo mkdir /$directory
 
 # Attach the disk to the mount point.
-sudo mount /dev/$myDisk1 /$directory
+sudo mount /dev/${myDisk}1 /$directory
 
 # Get the UUID of the new drive, /dev/sdc1, and save it as a variable.
-UUID=$(sudo -i blkid | grep '/dev/${myDisk}1 ' | perl -pe 's/.+([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}).+/$1/')
+UUID=$(sudo -i blkid | grep "/dev/${myDisk}1" | perl -pe 's/.+([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}).+/$1/')
 
 # Add the UUID to /etc/fstab so that the drive is mounted automatically after reboot.
 # We use the UUID instead of the device name (/dev/sdc1) because the UUID avoids the incorrect 
